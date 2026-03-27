@@ -1,0 +1,125 @@
+package de.hemane.boardgamerapp.datenbank;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hemane.boardgamerapp.klassen.Bewertung;
+
+public class BewertungDAO {
+
+    private DBVerwaltung dbVerwaltung;
+
+    public BewertungDAO(Context context) { // für SQLite-Zugriff über DBVerwaltung (kein direkter Zugriff)
+        dbVerwaltung = new DBVerwaltung(context);
+    }
+
+    public void insertBewertung(int terminId, int spielerId, int gastgeberSterne, String gastgeberKommentar, int essenSterne, String essenKommentar, int allgemeinSterne, String allgemeinKommentar) {
+        SQLiteDatabase db = dbVerwaltung.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("terminId", terminId);
+        values.put("spielerId", spielerId);
+        values.put("gastgeberSterne", gastgeberSterne);
+        values.put("gastgeberKommentar", gastgeberKommentar);
+        values.put("essenSterne", essenSterne);
+        values.put("essenKommentar", essenKommentar);
+        values.put("allgemeinSterne", allgemeinSterne);
+        values.put("allgemeinKommentar", allgemeinKommentar);
+
+        db.insert("Bewertung", null, values);
+
+        db.close();
+    }
+
+    public List<Bewertung> getAlleBewertungen() {
+        List<Bewertung> bewertungsListe = new ArrayList<>();
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM Bewertung", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int bewertungId = cursor.getInt(0);
+                int terminId = cursor.getInt(1);
+                int spielerId = cursor.getInt(2);
+                int gastgeberSterne = cursor.getInt(3);
+                String gastgeberKommentar = cursor.getString(4);
+                int essenSterne = cursor.getInt(5);
+                String essenKommentar = cursor.getString(6);
+                int allgemeinSterne = cursor.getInt(7);
+                String allgemeinKommentar = cursor.getString(8);
+
+
+                Bewertung bewertung = new Bewertung(bewertungId, terminId, spielerId, gastgeberSterne, gastgeberKommentar, essenSterne, essenKommentar, allgemeinSterne, allgemeinKommentar);
+
+                bewertungsListe.add(bewertung);
+            } while
+            (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return bewertungsListe;
+    }
+
+    public Bewertung getBewertungenById(int id) {
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor= db.rawQuery("SELECT * FROM Bewertung WHERE id=?", new String[]{String.valueOf(id)});
+
+        Bewertung bewertungen = null;
+
+        if (cursor.moveToFirst()) {
+            int bewertungId = cursor.getInt(0);
+            int terminId = cursor.getInt(1);
+            int spielerId = cursor.getInt(2);
+            int gastgeberSterne = cursor.getInt(3);
+            String gastgeberKommentar = cursor.getString(4);
+            int essenSterne = cursor.getInt(5);
+            String essenKommentar = cursor.getString(6);
+            int allgemeinSterne = cursor.getInt(7);
+            String allgemeinKommentar = cursor.getString(8);
+
+
+            bewertungen = new Bewertung(bewertungId, terminId, spielerId, gastgeberSterne, gastgeberKommentar, essenSterne, essenKommentar, allgemeinSterne, allgemeinKommentar);
+        }
+
+        cursor.close();
+        db.close();
+
+        return bewertungen;
+    }
+
+    public void updateBewertungen(int id, int terminId, int spielerId, int gastgeberSterne, String gastgeberKommentar, int essenSterne, String essenKommentar, int allgemeinSterne, String allgemeinKommentar) {
+        SQLiteDatabase db= dbVerwaltung.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("terminId", terminId);
+        values.put("spielerId", spielerId);
+        values.put("gastgeberSterne", gastgeberSterne);
+        values.put("gastgeberKommentar", gastgeberKommentar);
+        values.put("essenSterne", essenSterne);
+        values.put("essenKommentar", essenKommentar);
+        values.put("allgemeinSterne", allgemeinSterne);
+        values.put("allgemeinKommentar", allgemeinKommentar);
+
+        db.update("Bewertung", values, "id=?", new String[]{String.valueOf(id)});
+
+        db.close();
+    }
+
+    public void deleteBewertungen(int id) {
+        SQLiteDatabase db = dbVerwaltung.getWritableDatabase();
+
+        db.delete("Bewertung", "id=?", new String[]{String.valueOf(id)});
+
+        db.close();
+    }
+}
