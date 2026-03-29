@@ -113,15 +113,15 @@ public class AbstimmungDAO {
                 new String[]{String.valueOf(spielId)}
         );
 
-        int zähler = 0;
+        int zaehler = 0;
 
         if (cursor.moveToFirst()) {
-            zähler = cursor.getInt(0);
+            zaehler = cursor.getInt(0);
         }
 
         cursor.close();
 
-        return zähler;
+        return zaehler;
     }
 
     public int getSpielIdBySpieler(int spielerId) { // wenn Spieler abgestimmt hat

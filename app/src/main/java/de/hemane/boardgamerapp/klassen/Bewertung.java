@@ -24,6 +24,17 @@ public class Bewertung {
         this.allgemeinKommentar = allgemeinKommentar;
     }
 
+    public Bewertung(int terminId, int spielerId, int gastgeberSterne, String gastgeberKommentar, int essenSterne, String essenKommentar, int allgemeinSterne, String allgemeinKommentar) {
+        this.terminId = terminId;
+        this.spielerId = spielerId;
+        this.gastgeberSterne = gastgeberSterne;
+        this.gastgeberKommentar = gastgeberKommentar;
+        this.essenSterne = essenSterne;
+        this.essenKommentar = essenKommentar;
+        this.allgemeinSterne = allgemeinSterne;
+        this.allgemeinKommentar = allgemeinKommentar;
+    }
+
     public int getId() {
         return id;
     }

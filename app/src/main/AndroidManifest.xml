@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoardGamerApp">
         <activity
+            android:name=".ui.Bewertung"
+            android:exported="false" />
+        <activity
             android:name=".ui.NachTerminDetailActivity"
             android:exported="false" />
         <activity

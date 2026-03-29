@@ -1,7 +1,10 @@
 package de.hemane.boardgamerapp.helfer;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 public class DatumHelfer {
 
@@ -28,6 +31,20 @@ public class DatumHelfer {
 
         LocalDateTime frist = terminDatum.minusDays(2); // Frist berechnen (Termin - 2 Tage)
 
-        return jetzt.isAfter(frist); // Vgl.: jetzt & Frist, true wenn nach Frist, false, wenn davor
+        return jetzt.isAfter(frist); // Vgl.: jetzt & Frist, true wenn nach Frist, false, wenn davor true
+    }
+
+    public static boolean istZweiTageNachTermin(String datumString) {
+        LocalDateTime terminDatum = parseDatum(datumString);
+
+        if (terminDatum == null) {
+            return true;
+        }
+
+        LocalDateTime jetzt = LocalDateTime.now();
+
+        LocalDateTime fristEnde = terminDatum.plusDays(2); // 2 Tage nach Termin
+
+        return jetzt.isAfter(fristEnde); // Vgl.: jetzt & Frist, true wenn nach Frist, false, wenn davor true
     }
 }

@@ -12,4 +12,13 @@
     <string name="platzhalterMitKlammern">%1$s (%2$d)</string>
     <string name="teilnehmer">Teilnehmer:</string>
     <string name="spiel">Gewinner der Spielabstimmung</string>
+    <string name="keinspiel">Es konnte kein Gewinnerspiel ermittelt werden.</string>
+    <string name="bewert">Bewertungen</string>
+    <string name="erlbewert">Bitte beachte, dass du nur einmalig eine Bewertung abgeben kannst und diese nach dem Senden unveränderlich ist.</string>
+    <string name="gbewert">Gastgeberbewertung</string>
+    <string name="ebewert">Verpflegungsbewertung</string>
+    <string name="abewert">Allgemeine Bewertung</string>
+    <string name="kommentar">Kommentar (optional)</string>
+    <string name="send">Bewertung absenden</string>
+    <string name="btoast">Bewertung wurde abgesendet!</string>
 </resources>

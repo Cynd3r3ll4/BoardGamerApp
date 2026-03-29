@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -28,7 +33,8 @@
     <ListView
         android:id="@+id/listTeilnehmer"
         android:layout_width="match_parent"
-        android:layout_height="389dp"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
         android:layout_marginBottom="16dp" />
 
     <TextView
@@ -42,8 +48,187 @@
         android:id="@+id/textGewinnerSpiel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Noch kein Spiel gewählt"
         android:textSize="16sp"
         android:layout_marginBottom="16dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bewert"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/erlbewert"
+        android:textColor="@color/grey"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gbewert"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutGastgeberSterne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/gastgeberStern1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/gastgeberStern2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/gastgeberStern3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/gastgeberStern4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/gastgeberStern5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editGastgeberKommentar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/kommentar"
+        android:maxLength="250"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ebewert"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutEssenSterne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/essenStern1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/essenStern2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/essenStern3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/essenStern4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/essenStern5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editEssenKommentar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/kommentar"
+        android:maxLength="250"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/abewert"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutAllgemeinSterne"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/allgStern1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/allgStern2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/allgStern3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/allgStern4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+        <ImageView
+            android:id="@+id/allgStern5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editAllgemeinKommentar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/kommentar"
+        android:maxLength="250"/>
+
+    <Button
+        android:id="@+id/buttonBewertung"
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/send" />
+
 </LinearLayout>
+
+</ScrollView>

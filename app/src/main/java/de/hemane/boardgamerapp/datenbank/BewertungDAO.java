@@ -122,4 +122,54 @@ public class BewertungDAO {
 
         db.close();
     }
+
+    public boolean existiertBewertung(int terminId, int spielerId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM Bewertung WHERE terminId = ? AND spielerId = ?", new String[]{String.valueOf(terminId), String.valueOf(spielerId)} // zählt Bewertung
+        );
+
+        boolean existiert = false;
+
+        if (cursor.moveToFirst()) {
+            existiert = cursor.getInt(0) > 0;
+        }
+
+        cursor.close();
+        db.close();
+
+        return existiert;
+    }
+
+    public Bewertung getBewertungByTermindUndSpieler(int terminId, int spielerId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM Bewertung WHERE terminId = ? AND spielerId = ?",
+                new String[]{String.valueOf(terminId), String.valueOf(spielerId)}
+        );
+
+        Bewertung bewertung = null;
+
+        if (cursor.moveToFirst()) {
+            bewertung = new Bewertung(
+                    cursor.getInt(cursor.getColumnIndexOrThrow("terminId")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("spielerId")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("gastgeberSterne")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("gastgeberKommentar")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("essenSterne")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("essenKommentar")),
+                    cursor.getInt(cursor.getColumnIndexOrThrow("allgemeinSterne")),
+                    cursor.getString(cursor.getColumnIndexOrThrow("allgemeinKommentar"))
+            );
+        }
+
+        cursor.close();
+        db.close();
+
+        return bewertung;
+    }
 }

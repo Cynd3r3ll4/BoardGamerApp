@@ -2,6 +2,7 @@ package de.hemane.boardgamerapp.controller;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hemane.boardgamerapp.datenbank.AbstimmungDAO;
@@ -177,12 +178,24 @@ public class APIServer {
         return bewertungDAO.getBewertungenById(id);
     }
 
+    public Bewertung getBewertungByTerminUndSpieler(int terminId, int spielerId) {
+        return bewertungDAO.getBewertungByTermindUndSpieler(terminId, spielerId);
+    }
+
     public void updateBewertungen(int id, int terminId, int spielerId, int gastgeberSterne, String gastgeberKommentar, int essenSterne, String essenKommentar, int allgemeinSterne, String allgemeinKommentar) {
         bewertungDAO.updateBewertungen(id, terminId, spielerId, gastgeberSterne, gastgeberKommentar, essenSterne, essenKommentar, allgemeinSterne, allgemeinKommentar);
     }
 
     public void deleteBewertungen(int id) {
         bewertungDAO.deleteBewertungen(id);
+    }
+
+    public void speicherBewertung(int terminId, int spielerId,
+                              int gastgeberSterne, String gastgeberKommentar,
+                              int essenSterne, String essenKommentar,
+                              int allgemeinSterne, String allgemeinKommentar) {
+
+        bewertungDAO.insertBewertung(terminId, spielerId, gastgeberSterne, gastgeberKommentar, essenSterne, essenKommentar, allgemeinSterne, allgemeinKommentar);
     }
 
     // ChatnachrichtDAO-Methoden
@@ -204,5 +217,41 @@ public class APIServer {
 
     public void deleteChatnachrichten(int id) {
         chatnachrichtDAO.deleteChatnachrichten(id);
+    }
+
+    // gemischte Funktionen
+    public List<Spieler> getTeilnehmerByTerminId(int terminId) {
+        List<Teilnahme> teilnahmen = teilnahmeDAO.getTeilnahmeByTerminId(terminId);
+        List<Spieler> spielerListe = new ArrayList<>();
+
+        for (Teilnahme t : teilnahmen) {
+            if (t.getTeilnahme() == 1) {
+                spielerListe.add(spielerDAO.getSpielerById(t.getSpielerId()));
+            }
+        }
+
+        return spielerListe;
+    }
+
+    public Spiel getGewinnerSpiel(int terminId) {
+        List<Spiel> spiele = spielDAO.getSpieleByTermin(terminId);
+
+        Spiel gewinner = null;
+        int maxStimmen = 0;
+
+        for (Spiel spiel : spiele) {
+            int stimmen = abstimmungDAO.getStimmenAnzahl(spiel.getId());
+
+            if (stimmen > maxStimmen) {
+                maxStimmen = stimmen;
+                gewinner = spiel;
+            }
+        }
+
+        return gewinner;
+    }
+
+    public boolean hatTerminBewertet(int terminId, int spielerId) {
+        return bewertungDAO.existiertBewertung(terminId, spielerId);
     }
 }
