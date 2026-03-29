@@ -90,6 +90,7 @@ public class APIServer {
 
         Termin letzterTermin = null;
         LocalDateTime letztesDatum = null;
+        LocalDateTime jetzt = LocalDateTime.now();
 
         for (Termin t : alleTermine) {
 
@@ -97,9 +98,11 @@ public class APIServer {
 
                 LocalDateTime datum = DatumHelfer.parseDatum(t.getDatum());
 
-                if (letztesDatum == null || datum.isAfter(letztesDatum)) {
-                    letzterTermin = t;
-                    letztesDatum = datum;
+                if (datum != null && datum.isBefore(jetzt)) {
+                    if (letztesDatum == null || datum.isAfter(letztesDatum)) {
+                        letzterTermin = t;
+                        letztesDatum = datum;
+                    }
                 }
             }
         }

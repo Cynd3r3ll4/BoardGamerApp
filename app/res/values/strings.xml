@@ -22,6 +22,5 @@
     <string name="send">Bewertung absenden</string>
     <string name="btoast">Bewertung wurde abgesendet!</string>
     <string name="keinTermin">Wie es scheint, hast du noch keinen Termin ausgerichtet. :(</string>
-    <string name="keineTeilnehmer">Leider hat an diesem Termin keiner teilgenommen.</string>
-    <string name="keineBewertung">Es liegen keine Bewertungen vor.</string>
+    <string name="keineTeilnehmer">Keiner hat teilgenommen.</string>
 </resources>

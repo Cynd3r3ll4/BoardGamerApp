@@ -226,7 +226,7 @@ public class NachTerminDetailActivity extends AppCompatActivity {
 
         boolean darfBewerten = DatumHelfer.istZweiTageNachTermin(termin.getDatum());
 
-        if (!darfBewerten) { // wenn noch nicht 2 Tage her, alles gesperrt
+        if (darfBewerten) { // wenn noch nicht 2 Tage her, alles gesperrt
             disableBewertung();
         }
     }

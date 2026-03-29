@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBVerwaltung extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "boardgamerapp.db"; //Name der DB
-    private static final int DATABASE_VERSION = 3; // Version der DB--> erhöhen bei Änderungen an Tabellen/Datensätzen
+    private static final int DATABASE_VERSION = 4; // Version der DB--> erhöhen bei Änderungen an Tabellen/Datensätzen
     private long spieler1IdSave;
     private long spieler2IdSave;
     private long spieler3IdSave;
@@ -122,7 +122,7 @@ public class DBVerwaltung extends SQLiteOpenHelper {
         long spieler5Id =db.insert("Spieler", null, values);
 
         values.clear();
-        values.put("name", "Thorabu"); //Spieler6 erstellen
+        values.put("name", "Thorabur"); //Spieler6 erstellen
         long spieler6Id =db.insert("Spieler", null, values);
 
         spieler1IdSave = spieler1Id;
@@ -136,63 +136,68 @@ public class DBVerwaltung extends SQLiteOpenHelper {
     private void insertTermin(SQLiteDatabase db){
         ContentValues values = new ContentValues();
 
-        values.put("datum", "08.01.2026, 18:00 Uhr");
+        values.put("datum", "01.01.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler1IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "12.02.2026, 18:00 Uhr");
+        values.put("datum", "05.02.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler2IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "12.03.2026, 18:00 Uhr");
+        values.put("datum", "05.03.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler3IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "09.04.2026, 18:00 Uhr");
+        values.put("datum", "02.04.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler4IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "14.05.2026, 18:00 Uhr");
+        values.put("datum", "07.05.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler5IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "11.06.2026, 18:00 Uhr");
+        values.put("datum", "04.06.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler6IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "09.07.2026, 18:00 Uhr");
+        values.put("datum", "02.07.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler1IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "13.08.2026, 18:00 Uhr");
+        values.put("datum", "06.08.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler2IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "10.09.2026, 18:00 Uhr");
+        values.put("datum", "03.09.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler3IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "08.10.2026, 18:00 Uhr");
+        values.put("datum", "01.10.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler4IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "12.11.2026, 18:00 Uhr");
+        values.put("datum", "05.11.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler5IdSave);
         db.insert("Termin", null, values);
 
         values.clear();
-        values.put("datum", "10.12.2026, 18:00 Uhr");
+        values.put("datum", "03.12.2026, 18:00 Uhr");
         values.put("gastgeberId", spieler6IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "31.03.2026, 20:00 Uhr");
+        values.put("gastgeberId", spieler2IdSave);
         db.insert("Termin", null, values);
     }
 

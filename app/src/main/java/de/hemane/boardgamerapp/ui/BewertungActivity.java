@@ -91,8 +91,12 @@ public class BewertungActivity extends AppCompatActivity {
 
         List<String> namen = new ArrayList<>();
 
-        for (Spieler s : teilnehmer) {
-            namen.add(s.getName());
+        if (teilnehmer.isEmpty()) {
+            namen.add(getString(R.string.keineTeilnehmer));
+        } else {
+            for (Spieler s : teilnehmer) {
+                namen.add(s.getName());
+            }
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
