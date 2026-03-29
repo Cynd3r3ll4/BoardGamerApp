@@ -79,6 +79,28 @@ public class TeilnahmeDAO {
         return teilnahmen;
     }
 
+    public Teilnahme getTeilnahmeBySpielerUndTermin(int spielerId, int terminId){
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor= db.rawQuery("SELECT * FROM Teilnahme WHERE spielerId=? AND terminId=? LIMIT 1", new String[]{String.valueOf(spielerId), String.valueOf(terminId)});
+
+        Teilnahme teilnahmen = null;
+
+        if (cursor.moveToFirst()) {
+            int teilnahmeId = cursor.getInt(0);
+            int spielerIds = cursor.getInt(1);
+            int terminIds = cursor.getInt(2);
+            int teilnahme = cursor.getInt(3);
+
+            teilnahmen = new Teilnahme(teilnahmeId, spielerIds, terminIds, teilnahme);
+        }
+
+        cursor.close();
+        db.close();
+
+        return teilnahmen;
+    }
+
     public void updateTeilnahme(int id, int spielerId, int terminId, int teilnahme) {
         SQLiteDatabase db= dbVerwaltung.getWritableDatabase();
 

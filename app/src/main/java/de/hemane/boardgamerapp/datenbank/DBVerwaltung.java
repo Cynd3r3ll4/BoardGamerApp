@@ -1,5 +1,6 @@
 package de.hemane.boardgamerapp.datenbank;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -7,7 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBVerwaltung extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "boardgamerapp.db"; //Name der DB
-    private static final int DATABASE_VERSION = 1; // Version der DB
+    private static final int DATABASE_VERSION = 3; // Version der DB--> erhöhen bei Änderungen an Tabellen/Datensätzen
+    private long spieler1IdSave;
+    private long spieler2IdSave;
+    private long spieler3IdSave;
+    private long spieler4IdSave;
+    private long spieler5IdSave;
+    private long spieler6IdSave;
 
     public DBVerwaltung(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -15,11 +22,16 @@ public class DBVerwaltung extends SQLiteOpenHelper {
 
 
     @Override
-    public void onCreate(SQLiteDatabase db) { // führt SQL aus und erstellt Tabellen
+    public void onCreate(SQLiteDatabase db) { // erstellt Tabellen + befüllt mit Initialdaten
+        erstelleTabellen(db);
+        erstelleAlleInitialdaten(db);
+    }
+
+    private void erstelleTabellen(SQLiteDatabase db){
         db.execSQL( // Tabelle Spieler
-        "CREATE TABLE Spieler (" +
-                "id	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "name TEXT NOT NULL);"
+                "CREATE TABLE Spieler (" +
+                        "id	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                        "name TEXT NOT NULL);"
         );
 
         db.execSQL( // Tabelle Termin
@@ -53,7 +65,6 @@ public class DBVerwaltung extends SQLiteOpenHelper {
                         "id	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                         "spielerId INTEGER NOT NULL," +
                         "spielId INTEGER NOT NULL," +
-                        "teilnahme INTEGER NOT NULL," +
                         "FOREIGN KEY(spielerId) REFERENCES Spieler(id)," +
                         "FOREIGN KEY(spielId) REFERENCES Spiel(id));"
         );
@@ -82,6 +93,109 @@ public class DBVerwaltung extends SQLiteOpenHelper {
                         "FOREIGN KEY(spielerId) REFERENCES Spieler(id));"
         );
     }
+
+    private void erstelleAlleInitialdaten(SQLiteDatabase db) {
+        insertSpieler(db);
+        insertTermin(db);
+    }
+
+    private void insertSpieler(SQLiteDatabase db){
+        ContentValues values = new ContentValues();
+
+        values.put("name", "Tarlyne"); //Spieler1 erstellen
+        long spieler1Id =db.insert("Spieler", null, values);
+
+        values.clear();
+        values.put("name", "Cynd3r3ll4"); //Spieler2 erstellen
+        long spieler2Id =db.insert("Spieler", null, values);
+
+        values.clear();
+        values.put("name", "Garlyne"); //Spieler3 erstellen
+        long spieler3Id =db.insert("Spieler", null, values);
+
+        values.clear();
+        values.put("name", "LordDiaper"); //Spieler4 erstellen
+        long spieler4Id =db.insert("Spieler", null, values);
+
+        values.clear();
+        values.put("name", "Starlyne"); //Spieler5 erstellen
+        long spieler5Id =db.insert("Spieler", null, values);
+
+        values.clear();
+        values.put("name", "Thorabu"); //Spieler6 erstellen
+        long spieler6Id =db.insert("Spieler", null, values);
+
+        spieler1IdSave = spieler1Id;
+        spieler2IdSave = spieler2Id;
+        spieler3IdSave = spieler3Id;
+        spieler4IdSave = spieler4Id;
+        spieler5IdSave = spieler5Id;
+        spieler6IdSave = spieler6Id;
+    }
+
+    private void insertTermin(SQLiteDatabase db){
+        ContentValues values = new ContentValues();
+
+        values.put("datum", "08.01.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler1IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "12.02.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler2IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "12.03.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler3IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "09.04.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler4IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "14.05.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler5IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "11.06.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler6IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "09.07.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler1IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "13.08.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler2IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "10.09.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler3IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "08.10.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler4IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "12.11.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler5IdSave);
+        db.insert("Termin", null, values);
+
+        values.clear();
+        values.put("datum", "10.12.2026, 18:00 Uhr");
+        values.put("gastgeberId", spieler6IdSave);
+        db.insert("Termin", null, values);
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { // Tabellenänderungen übernehmen

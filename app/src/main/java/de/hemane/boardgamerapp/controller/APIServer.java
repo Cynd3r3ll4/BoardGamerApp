@@ -98,6 +98,10 @@ public class APIServer {
         teilnahmeDAO.updateTeilnahme(id, spielerId, terminId, teilnahme);
     }
 
+    public Teilnahme getTeilnahmeBySpielerUndTermin(int spielerId, int terminId) {
+        return teilnahmeDAO.getTeilnahmeBySpielerUndTermin(spielerId, terminId);
+    }
+
     public void deleteTeilnahme(int id) {
         teilnahmeDAO.deleteTeilnahme(id);
     }
@@ -123,6 +127,10 @@ public class APIServer {
         spielDAO.deleteSpiel(id);
     }
 
+    public List<Spiel> getSpieleByTermin(int terminId) {
+        return spielDAO.getSpieleByTermin(terminId);
+    }
+
     //AbstimmungDAO-Methoden
     public void insertAbstimmung(int spielerId, int spielId) {
         abstimmungDAO.insertAbstimmung(spielerId, spielId);
@@ -142,6 +150,18 @@ public class APIServer {
 
     public void deleteAbstimmung(int id) {
         abstimmungDAO.deleteAbstimmung(id);
+    }
+
+    public int getStimmenCount(int spielId) {
+        return abstimmungDAO.getStimmenAnzahl(spielId);
+    }
+
+    public void deleteAbstimmungBySpieler(int spielerId) {
+        abstimmungDAO.deleteAbstimmungBySpieler(spielerId);
+    }
+
+    public int getAbstimmungBySpieler(int spielerId) {
+        return abstimmungDAO.getSpielIdBySpieler(spielerId);
     }
 
     // BewertungDAO-Methoden

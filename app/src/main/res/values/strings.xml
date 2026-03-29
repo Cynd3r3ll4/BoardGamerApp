@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">BoardGamerApp</string>
+    <string name="spielerwahl">Spieler auswählen</string>
+    <string name="auswahl">Ausgewählt: %1$s</string> <!-- Platzhalter -->
+    <string name="terminwahl">Anstehende Termine</string>
+    <string name="terminvergangen">Letzter Termin</string>
+    <string name="title_activity_vor_termin_detail">VorTerminDetailActivity</string>
+    <string name="gastgeber">Gastgeber: %1$s</string>
+    <string name="teilnahme">Ich bin dabei!</string>
+    <string name="spielvorschläge">Welches Spiel darf`s sein?</string>
+    <string name="vorschlag">dein Spielvorschlag</string>
+    <string name="platzhalterMitKlammern">%1$s (%2$d)</string>
+    <string name="teilnehmer">Teilnehmer:</string>
+    <string name="spiel">Gewinner der Spielabstimmung</string>
 </resources>

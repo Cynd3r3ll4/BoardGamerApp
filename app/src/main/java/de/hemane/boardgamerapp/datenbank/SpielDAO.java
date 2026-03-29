@@ -77,6 +77,32 @@ public class SpielDAO {
         return spiel;
     }
 
+    public List<Spiel> getSpieleByTermin(int terminId) {
+
+        List<Spiel> spieleliste = new ArrayList<>();
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM Spiel WHERE terminId = ?",
+                new String[]{String.valueOf(terminId)}
+        );
+
+        while (cursor.moveToNext()) {
+
+            Spiel spiel = new Spiel(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getInt(2)
+            );
+
+            spieleliste.add(spiel);
+        }
+        cursor.close();
+
+        return spieleliste;
+    }
+
     public void updateSpiel(int id, String name, int terminId) {
         SQLiteDatabase db= dbVerwaltung.getWritableDatabase();
 

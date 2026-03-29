@@ -96,4 +96,51 @@ public class AbstimmungDAO {
 
         db.close();
     }
+
+    public void deleteAbstimmungBySpieler(int spielerId) {
+
+        SQLiteDatabase db = dbVerwaltung.getWritableDatabase();
+
+        db.delete("Abstimmung", "spielerId = ?", new String[]{String.valueOf(spielerId)});
+    }
+
+    public int getStimmenAnzahl(int spielId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*) FROM Abstimmung WHERE spielId = ?",
+                new String[]{String.valueOf(spielId)}
+        );
+
+        int zähler = 0;
+
+        if (cursor.moveToFirst()) {
+            zähler = cursor.getInt(0);
+        }
+
+        cursor.close();
+
+        return zähler;
+    }
+
+    public int getSpielIdBySpieler(int spielerId) { // wenn Spieler abgestimmt hat
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT spielId FROM Abstimmung WHERE spielerId = ?",
+                new String[]{String.valueOf(spielerId)}
+        );
+
+        int spielId = -1; // bleibt -1, wenn nicht abgestimmt
+
+        if (cursor.moveToFirst()) {
+            spielId = cursor.getInt(0);
+        }
+
+        cursor.close();
+
+        return spielId;
+    }
 }
