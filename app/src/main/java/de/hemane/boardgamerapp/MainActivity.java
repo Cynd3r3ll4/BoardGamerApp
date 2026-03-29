@@ -5,6 +5,7 @@ import static de.hemane.boardgamerapp.helfer.DatumHelfer.parseDatum;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import java.util.Objects;
 import de.hemane.boardgamerapp.controller.APIServer;
 import de.hemane.boardgamerapp.klassen.Spieler;
 import de.hemane.boardgamerapp.klassen.Termin;
+import de.hemane.boardgamerapp.ui.BewertungActivity;
 import de.hemane.boardgamerapp.ui.NachTerminDetailActivity;
 import de.hemane.boardgamerapp.ui.VorTerminDetailActivity;
 
@@ -26,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private List<Termin> terminListe;
     private ListView listViewLetzterTermin;
-
     private List<Termin> aktuelleTermine;
     private Termin letzterTermin;
+    private ImageView buttonBewertung;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listView = findViewById(R.id.listViewTermine);
-
         listViewLetzterTermin = findViewById(R.id.listViewLetzterTermin);
+        buttonBewertung = findViewById(R.id.buttonBewertung);
 
         apiServer = new APIServer(this);
+
+        buttonBewertung.setOnClickListener(v -> {
+
+            Intent intent = new Intent(MainActivity.this, BewertungActivity.class);
+            startActivity(intent);
+
+        });
 
         ladeTermine();
     }

@@ -2,6 +2,7 @@ package de.hemane.boardgamerapp.controller;
 
 import android.content.Context;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import de.hemane.boardgamerapp.datenbank.SpielDAO;
 import de.hemane.boardgamerapp.datenbank.SpielerDAO;
 import de.hemane.boardgamerapp.datenbank.TeilnahmeDAO;
 import de.hemane.boardgamerapp.datenbank.TerminDAO;
+import de.hemane.boardgamerapp.helfer.DatumHelfer;
 import de.hemane.boardgamerapp.klassen.Abstimmung;
 import de.hemane.boardgamerapp.klassen.Bewertung;
 import de.hemane.boardgamerapp.klassen.Chatnachricht;
@@ -80,6 +82,28 @@ public class APIServer {
 
     public void deleteTermin(int id) {
         terminDAO.deleteTermin(id);
+    }
+
+    public Termin getLetzterTerminVonGastgeber(int spielerId) {
+
+        List<Termin> alleTermine = terminDAO.getAlleTermine();
+
+        Termin letzterTermin = null;
+        LocalDateTime letztesDatum = null;
+
+        for (Termin t : alleTermine) {
+
+            if (t.getGastgeberId() == spielerId) {
+
+                LocalDateTime datum = DatumHelfer.parseDatum(t.getDatum());
+
+                if (letztesDatum == null || datum.isAfter(letztesDatum)) {
+                    letzterTermin = t;
+                    letztesDatum = datum;
+                }
+            }
+        }
+        return letzterTermin;
     }
 
     // TeilnahmeDAO-Methoden
@@ -196,6 +220,30 @@ public class APIServer {
                               int allgemeinSterne, String allgemeinKommentar) {
 
         bewertungDAO.insertBewertung(terminId, spielerId, gastgeberSterne, gastgeberKommentar, essenSterne, essenKommentar, allgemeinSterne, allgemeinKommentar);
+    }
+
+    public float getSchnittGastgeberBewertung(int terminId) {
+        return bewertungDAO.getSchnittGastgeberBewertung(terminId);
+    }
+
+    public float getSchnittEssenBewertung(int terminId) {
+        return bewertungDAO.getSchnittEssenBewertung(terminId);
+    }
+
+    public float getSchnittAllgemeinBewertung(int terminId) {
+        return bewertungDAO.getSchnittAllgemeinBewertung(terminId);
+    }
+
+    public List<String> getGastgeberKommentare(int terminId) {
+        return bewertungDAO.getGastgeberKommentare(terminId);
+    }
+
+    public List<String> getEssenKommentare(int terminId) {
+        return bewertungDAO.getEssenKommentare(terminId);
+    }
+
+    public List<String> getAllgemeinKommentare(int terminId) {
+        return bewertungDAO.getAllgemeinKommentare(terminId);
     }
 
     // ChatnachrichtDAO-Methoden

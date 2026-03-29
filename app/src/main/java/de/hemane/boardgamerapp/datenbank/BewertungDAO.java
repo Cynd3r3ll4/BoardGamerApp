@@ -172,4 +172,124 @@ public class BewertungDAO {
 
         return bewertung;
     }
+
+    public float getSchnittGastgeberBewertung(int terminId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT AVG(gastgeberSterne) FROM Bewertung WHERE terminId = ?", new String[]{String.valueOf(terminId)} // Durchschnitt der Bewertungen
+        );
+
+        float schnitt = 0;
+
+        if (cursor.moveToFirst()) {
+            schnitt = cursor.getFloat(0);
+        }
+
+        cursor.close();
+
+        return schnitt;
+    }
+
+    public float getSchnittEssenBewertung(int terminId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT AVG(essenSterne) FROM Bewertung WHERE terminId = ?", new String[]{String.valueOf(terminId)} // Durchschnitt der Bewertungen
+        );
+
+        float schnitt = 0;
+
+        if (cursor.moveToFirst()) {
+            schnitt = cursor.getFloat(0);
+        }
+
+        cursor.close();
+
+        return schnitt;
+    }
+
+    public float getSchnittAllgemeinBewertung(int terminId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT AVG(allgemeinSterne) FROM Bewertung WHERE terminId = ?", new String[]{String.valueOf(terminId)} // Durchschnitt der Bewertungen
+        );
+
+        float schnitt = 0;
+
+        if (cursor.moveToFirst()) {
+            schnitt = cursor.getFloat(0);
+        }
+
+        cursor.close();
+
+        return schnitt;
+    }
+
+    public List<String> getGastgeberKommentare(int terminId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        List<String> kommentare = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT gastgeberKommentar FROM Bewertung WHERE terminId = ?",
+                new String[]{String.valueOf(terminId)}
+        );
+
+        while (cursor.moveToNext()) {
+            String kommentar = cursor.getString(0);
+            kommentare.add(kommentar);
+        }
+
+        cursor.close();
+
+        return kommentare;
+    }
+
+    public List<String> getEssenKommentare(int terminId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        List<String> kommentare = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT essenKommentar FROM Bewertung WHERE terminId = ?",
+                new String[]{String.valueOf(terminId)}
+        );
+
+        while (cursor.moveToNext()) {
+            String kommentar = cursor.getString(0);
+            kommentare.add(kommentar);
+        }
+
+        cursor.close();
+
+        return kommentare;
+    }
+
+    public List<String> getAllgemeinKommentare(int terminId) {
+
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
+
+        List<String> kommentare = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT allgemeinKommentar FROM Bewertung WHERE terminId = ?",
+                new String[]{String.valueOf(terminId)}
+        );
+
+        while (cursor.moveToNext()) {
+            String kommentar = cursor.getString(0);
+            kommentare.add(kommentar);
+        }
+
+        cursor.close();
+
+        return kommentare;
+    }
 }
