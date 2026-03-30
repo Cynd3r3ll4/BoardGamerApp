@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBVerwaltung extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "boardgamerapp.db"; //Name der DB
-    private static final int DATABASE_VERSION = 4; // Version der DB--> erhöhen bei Änderungen an Tabellen/Datensätzen
+    private static final int DATABASE_VERSION = 6; // Version der DB--> erhöhen bei Änderungen an Tabellen/Datensätzen
     private long spieler1IdSave;
     private long spieler2IdSave;
     private long spieler3IdSave;

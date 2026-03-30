@@ -48,7 +48,18 @@
             android:id="@+id/buttonBewertung"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="40dp"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@android:drawable/btn_star_big_on"/>
+
+        <ImageView
+            android:id="@+id/buttonChat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@android:drawable/sym_action_chat"/>
 
     </LinearLayout>
 

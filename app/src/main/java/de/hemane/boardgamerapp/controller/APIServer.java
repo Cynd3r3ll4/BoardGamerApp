@@ -126,6 +126,10 @@ public class APIServer {
         teilnahmeDAO.updateTeilnahme(id, spielerId, terminId, teilnahme);
     }
 
+    public void updateTeilnahmeOhneId(int spielerId, int terminId, int wert) {
+        teilnahmeDAO.updateTeilnahmeOhneId(spielerId, terminId, wert);
+    }
+
     public Teilnahme getTeilnahmeBySpielerUndTermin(int spielerId, int terminId) {
         return teilnahmeDAO.getTeilnahmeBySpielerUndTermin(spielerId, terminId);
     }
@@ -268,6 +272,10 @@ public class APIServer {
 
     public void deleteChatnachrichten(int id) {
         chatnachrichtDAO.deleteChatnachrichten(id);
+    }
+
+    public void sendeChatnachricht(int spielerId, String text, String zeitpunkt) {
+        chatnachrichtDAO.insertChatnachrichten(spielerId, text, zeitpunkt);
     }
 
     // gemischte Funktionen

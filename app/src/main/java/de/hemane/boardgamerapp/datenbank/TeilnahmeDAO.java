@@ -140,6 +140,17 @@ public class TeilnahmeDAO {
         db.close();
     }
 
+    public void updateTeilnahmeOhneId(int spielerId, int terminId, int wert) {
+
+        SQLiteDatabase db = dbVerwaltung.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("teilnahme", wert);
+
+        db.update("Teilnahme", values, "spielerId=? AND terminId=?", new String[]{String.valueOf(spielerId), String.valueOf(terminId)}
+        );
+    }
+
     public void deleteTeilnahme(int id) {
         SQLiteDatabase db = dbVerwaltung.getWritableDatabase();
 
