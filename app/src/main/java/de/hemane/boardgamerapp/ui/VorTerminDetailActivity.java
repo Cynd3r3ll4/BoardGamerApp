@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import java.util.List;
 
 import de.hemane.boardgamerapp.R;
@@ -36,6 +38,11 @@ public class VorTerminDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vor_termin_detail);
+
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        // Pfeil explizit für diese Activity setzen
+        toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         textDatum = findViewById(R.id.textDatum); // Views aus Layout ansprechen
         textGastgeber = findViewById(R.id.textGastgeber);

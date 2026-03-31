@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,10 @@ public class BewertungActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_bewertung);
+
+            MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+            toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+            toolbar.setNavigationOnClickListener(v -> finish());
 
             textDatum = findViewById(R.id.textDatum);
             textGastgeber = findViewById(R.id.textGastgeber);

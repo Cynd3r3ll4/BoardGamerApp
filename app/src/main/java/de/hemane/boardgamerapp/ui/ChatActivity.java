@@ -10,6 +10,8 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -41,6 +43,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         listViewChat = findViewById(R.id.listViewChat);
         editTextNachricht = findViewById(R.id.editTextNachricht);
         buttonSenden = findViewById(R.id.buttonSenden);
@@ -57,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(this, nachrichtenListe, aktuellerSpielerId);
         listViewChat.setAdapter(adapter);
 
+        // Beim ersten Laden ganz nach unten scrollen
+        listViewChat.post(() -> listViewChat.setSelection(adapter.getCount() - 1));
+
         buttonSenden.setOnClickListener(v -> {
             String text = editTextNachricht.getText().toString().trim();
             if (text.isEmpty()) return;
@@ -65,10 +74,12 @@ public class ChatActivity extends AppCompatActivity {
             editTextNachricht.setText("");
         });
 
+        //noinspection CodeBlock2Expr
         buttonAbsage.setOnClickListener(v -> {
             sendeChatUndUpdateTeilnahme(getString(R.string.absage), 0);
         });
 
+        //noinspection CodeBlock2Expr
         buttonZusage.setOnClickListener(v -> {
             sendeChatUndUpdateTeilnahme(getString(R.string.zusage), 1);
         });
@@ -87,7 +98,9 @@ public class ChatActivity extends AppCompatActivity {
             nachrichtenListe.clear();
             nachrichtenListe.addAll(neu);
             adapter.notifyDataSetChanged();
-            listViewChat.setSelection(adapter.getCount() - 1);
+            
+            // Nach jeder neuen Nachricht nach unten scrollen
+            listViewChat.post(() -> listViewChat.setSelection(adapter.getCount() - 1));
         }
     }
 
@@ -128,12 +141,12 @@ public class ChatActivity extends AppCompatActivity {
         
         Teilnahme teilnahme = apiServer.getTeilnahmeBySpielerUndTermin(aktuellerSpielerId, naechsterTermin.getId());
         
-        // Wenn teilnahme == null (noch kein Eintrag) oder teilnahme == 0 (abgesagt) -> Zusage-Button zeigen
-        // Wenn teilnahme == 1 (zugesagt) -> Absage-Button zeigen
-        if (teilnahme != null && teilnahme.getTeilnahme() == 1) {
+
+
+        if (teilnahme != null && teilnahme.getTeilnahme() == 1) { // wenn teilnahme == null (noch kein Eintrag) / teilnahme == 0 (abgesagt) --> Zusage-Button zeigen
             buttonAbsage.setVisibility(View.VISIBLE);
             buttonZusage.setVisibility(View.GONE);
-        } else {
+        } else {  // wenn teilnahme == 1 (zugesagt) -> Absage-Button zeigen
             buttonAbsage.setVisibility(View.GONE);
             buttonZusage.setVisibility(View.VISIBLE);
         }
@@ -146,11 +159,11 @@ public class ChatActivity extends AppCompatActivity {
         buttonAbsage.setEnabled(false);
         buttonZusage.setEnabled(false);
 
-        // 1. Nachricht senden
-        sendeNachricht(text);
 
-        // 2. Teilnahme in DB prüfen & updaten oder neu anlegen
-        Teilnahme vorhanden = apiServer.getTeilnahmeBySpielerUndTermin(aktuellerSpielerId, naechsterTermin.getId());
+        sendeNachricht(text); // Nachricht senden
+
+
+        Teilnahme vorhanden = apiServer.getTeilnahmeBySpielerUndTermin(aktuellerSpielerId, naechsterTermin.getId()); // Teilnahme in DB prüfen & updaten / neu anlegen
 
         if (vorhanden == null) {
             apiServer.insertTeilnahme(aktuellerSpielerId, naechsterTermin.getId(), teilnahmeWert);
@@ -158,7 +171,7 @@ public class ChatActivity extends AppCompatActivity {
             apiServer.updateTeilnahmeOhneId(aktuellerSpielerId, naechsterTermin.getId(), teilnahmeWert);
         }
 
-        // 3. UI aktualisieren
-        setVorgefertigteNachrichten();
+
+        setVorgefertigteNachrichten(); // Ansicht aktualisieren
     }
 }

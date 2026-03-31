@@ -6,14 +6,21 @@
     android:padding="8dp"
     android:fitsSystemWindows="true">
 
+    <include layout="@layout/app_name" />
+
     <ListView
         android:id="@+id/listViewChat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="4dp" />
 
     <LinearLayout
         android:id="@+id/layoutQuickActions"
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -21,36 +28,42 @@
 
         <Button
             android:id="@+id/buttonAbsage"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Absage"/>
+            android:text="@string/abs" />
 
         <Button
             android:id="@+id/buttonZusage"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Zusage"/>
+            android:text="@string/zus"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <EditText
             android:id="@+id/editTextNachricht"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="@string/nachricht" />
+            android:hint="@string/nachricht"
+            android:maxLines="4"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine" />
 
         <Button
             android:id="@+id/buttonSenden"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="@string/senden"/>
 
     </LinearLayout>

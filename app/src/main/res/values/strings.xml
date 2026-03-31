@@ -24,9 +24,11 @@
     <string name="keinTermin">Wie es scheint, hast du noch keinen Termin ausgerichtet. :(</string>
     <string name="keineTeilnehmer">Leider hat an diesem Termin keiner teilgenommen.</string>
     <string name="keineBewertung">Es liegen keine Bewertungen vor.</string>
-    <string name="nachricht">Nachricht schreiben...</string>
+    <string name="nachricht">Nachricht schreiben…</string>
     <string name="senden">Senden</string>
     <string name="unbekannt">Unbekannt</string>
+    <string name="zus">Zusage</string>
+    <string name="abs">Absage</string>
     <string name="zusage">Ich habe doch Zeit und möchte spontan teilnehmen! :)</string>
     <string name="absage">Mir ist etwas dazwischen gekommen und ich muss leider spontan absagen. :(</string>
 </resources>

@@ -6,6 +6,8 @@
     android:padding="16dp"
     android:fitsSystemWindows="true">
 
+    <include layout="@layout/app_name" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

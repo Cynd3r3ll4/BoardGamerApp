@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,11 @@ public class NachTerminDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nach_termin_detail);
+
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+        // Pfeil explizit setzen
+        toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         textDatum = findViewById(R.id.textDatum); // Views aus Layout ansprechen
         textGastgeber = findViewById(R.id.textGastgeber);

@@ -1,6 +1,8 @@
 package de.hemane.boardgamerapp.helfer;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.List;
 
@@ -39,6 +43,7 @@ public class ChatAdapter extends ArrayAdapter<Chatnachricht> {
 
         TextView textNachricht = convertView.findViewById(R.id.textNachricht);
         TextView textMeta = convertView.findViewById(R.id.textMetadaten);
+        LinearLayout layout = (LinearLayout) convertView;
 
         Spieler spieler = apiServer.getSpielerById(nachricht.getSpielerId());
         String name = (spieler != null) ? spieler.getName() : getContext().getString(R.string.unbekannt);
@@ -46,15 +51,28 @@ public class ChatAdapter extends ArrayAdapter<Chatnachricht> {
         textNachricht.setText(nachricht.getText());
         textMeta.setText(name + " • " + nachricht.getZeitpunkt());
 
-        // 👉 LINKS / RECHTS LOGIK
-        LinearLayout layout = (LinearLayout) convertView;
-
+        // Theme-Farben für Textkontrast laden
+        TypedValue typedValue = new TypedValue();
+        
         if (nachricht.getSpielerId() == aktuellerSpielerId) {
-            layout.setGravity(Gravity.END); // schiebt Text-Bubble nach rechts
-            textNachricht.setBackgroundResource(android.R.drawable.dialog_holo_light_frame);
+            // EIGENE NACHRICHT (Rechts)
+            layout.setGravity(Gravity.END);
+            textMeta.setGravity(Gravity.END);
+            textNachricht.setBackgroundResource(R.drawable.bubble_sent);
+            
+            // Kontrastfarbe für Text auf PrimaryContainer (OnPrimaryContainer)
+            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnPrimaryContainer, typedValue, true);
+            textNachricht.setTextColor(typedValue.data);
+            
         } else {
-            layout.setGravity(Gravity.START); // schiebt Text-Bubble nach links
-            textNachricht.setBackgroundResource(android.R.drawable.dialog_holo_dark_frame);
+            // ANDERE NACHRICHT (Links)
+            layout.setGravity(Gravity.START);
+            textMeta.setGravity(Gravity.START);
+            textNachricht.setBackgroundResource(R.drawable.bubble_received);
+            
+            // Kontrastfarbe für Text auf SurfaceVariant (OnSurfaceVariant)
+            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurfaceVariant, typedValue, true);
+            textNachricht.setTextColor(typedValue.data);
         }
 
         return convertView;
