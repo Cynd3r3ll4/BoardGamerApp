@@ -1,7 +1,6 @@
 package de.hemane.boardgamerapp.helfer;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -31,12 +30,13 @@ public class ChatAdapter extends ArrayAdapter<Chatnachricht> {
         this.apiServer = new APIServer(context);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         Chatnachricht nachricht = getItem(position);
 
-        if (convertView == null) {
+        if (convertView == null) { // View recyclen/ neu aufbauen
             convertView = LayoutInflater.from(getContext())
                     .inflate(R.layout.einzelne_chatnachricht, parent, false);
         }
@@ -49,28 +49,23 @@ public class ChatAdapter extends ArrayAdapter<Chatnachricht> {
         String name = (spieler != null) ? spieler.getName() : getContext().getString(R.string.unbekannt);
 
         textNachricht.setText(nachricht.getText());
-        textMeta.setText(name + " • " + nachricht.getZeitpunkt());
+        textMeta.setText(getContext().getString(R.string.metadaten_trenner, name, nachricht.getZeitpunkt())); // Metadaten (Spielername + Zeitpunkt) setzen
 
-        // Theme-Farben für Textkontrast laden
-        TypedValue typedValue = new TypedValue();
+        TypedValue typedValue = new TypedValue(); // Farben laden
         
-        if (nachricht.getSpielerId() == aktuellerSpielerId) {
-            // EIGENE NACHRICHT (Rechts)
+        if (nachricht.getSpielerId() == aktuellerSpielerId) { // eigene NAchrichten immer rechtsbündig
             layout.setGravity(Gravity.END);
             textMeta.setGravity(Gravity.END);
-            textNachricht.setBackgroundResource(R.drawable.bubble_sent);
-            
-            // Kontrastfarbe für Text auf PrimaryContainer (OnPrimaryContainer)
-            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnPrimaryContainer, typedValue, true);
+            textNachricht.setBackgroundResource(R.drawable.bubble_sent); // links anderes Drawable als rechts
+
+            getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnPrimaryContainer, typedValue, true); // Kontrastfarbe
             textNachricht.setTextColor(typedValue.data);
             
-        } else {
-            // ANDERE NACHRICHT (Links)
+        } else { // andere Nachrichten immer linksbündig
             layout.setGravity(Gravity.START);
             textMeta.setGravity(Gravity.START);
             textNachricht.setBackgroundResource(R.drawable.bubble_received);
-            
-            // Kontrastfarbe für Text auf SurfaceVariant (OnSurfaceVariant)
+
             getContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurfaceVariant, typedValue, true);
             textNachricht.setTextColor(typedValue.data);
         }

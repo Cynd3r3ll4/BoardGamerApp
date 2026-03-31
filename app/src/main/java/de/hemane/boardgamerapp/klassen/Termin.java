@@ -3,7 +3,7 @@ package de.hemane.boardgamerapp.klassen;
 public class Termin {
 
     private int id;
-    private String datum; // String, weil SQLite kein Datum kennt!
+    private String datum; // String, weil SQLite kein Datum kennt
     private int gastgeberId;
 
     public Termin(int id, String datum, int gastgeberId) {

@@ -133,7 +133,7 @@ public class AbstimmungDAO {
                 new String[]{String.valueOf(spielerId)}
         );
 
-        int spielId = -1; // bleibt -1, wenn nicht abgestimmt
+        int spielId = -1;
 
         if (cursor.moveToFirst()) {
             spielId = cursor.getInt(0);

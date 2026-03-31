@@ -2,7 +2,6 @@ package de.hemane.boardgamerapp.controller;
 
 import android.content.Context;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import de.hemane.boardgamerapp.datenbank.SpielDAO;
 import de.hemane.boardgamerapp.datenbank.SpielerDAO;
 import de.hemane.boardgamerapp.datenbank.TeilnahmeDAO;
 import de.hemane.boardgamerapp.datenbank.TerminDAO;
-import de.hemane.boardgamerapp.helfer.DatumHelfer;
 import de.hemane.boardgamerapp.klassen.Abstimmung;
 import de.hemane.boardgamerapp.klassen.Bewertung;
 import de.hemane.boardgamerapp.klassen.Chatnachricht;
@@ -32,7 +30,7 @@ public class APIServer {
     private BewertungDAO bewertungDAO;
     private ChatnachrichtDAO chatnachrichtDAO;
 
-    public APIServer(Context context) { // Verwaltung aller DAOs, um deren Methodenaufzurufen
+    public APIServer(Context context) { // Verwaltung aller DAOs, um deren Methoden aufzurufen
         spielerDAO = new SpielerDAO(context);
         terminDAO = new TerminDAO(context);
         teilnahmeDAO = new TeilnahmeDAO(context);
@@ -41,6 +39,8 @@ public class APIServer {
         bewertungDAO = new BewertungDAO(context);
         chatnachrichtDAO = new ChatnachrichtDAO(context);
     }
+
+    // Klasse simuliert REST-API, damit nicht direkt auf DAOs zugegriffen wird
 
     // SpielerDAO-Methoden
     public void insertSpieler(String name) {
@@ -85,28 +85,7 @@ public class APIServer {
     }
 
     public Termin getLetzterTerminVonGastgeber(int spielerId) {
-
-        List<Termin> alleTermine = terminDAO.getAlleTermine();
-
-        Termin letzterTermin = null;
-        LocalDateTime letztesDatum = null;
-        LocalDateTime jetzt = LocalDateTime.now();
-
-        for (Termin t : alleTermine) {
-
-            if (t.getGastgeberId() == spielerId) {
-
-                LocalDateTime datum = DatumHelfer.parseDatum(t.getDatum());
-
-                if (datum != null && datum.isBefore(jetzt)) {
-                    if (letztesDatum == null || datum.isAfter(letztesDatum)) {
-                        letzterTermin = t;
-                        letztesDatum = datum;
-                    }
-                }
-            }
-        }
-        return letzterTermin;
+        return terminDAO.getLetzterTerminVonGastgeber(spielerId);
     }
 
     // TeilnahmeDAO-Methoden
@@ -151,16 +130,16 @@ public class APIServer {
         return spielDAO.getSpieleById(id);
     }
 
+    public List<Spiel> getSpieleByTermin(int terminId) {
+        return spielDAO.getSpieleByTermin(terminId);
+    }
+
     public void updateSpiel(int id, String name, int terminId) {
         spielDAO.updateSpiel(id, name, terminId);
     }
 
     public void deleteSpiel(int id){
         spielDAO.deleteSpiel(id);
-    }
-
-    public List<Spiel> getSpieleByTermin(int terminId) {
-        return spielDAO.getSpieleByTermin(terminId);
     }
 
     //AbstimmungDAO-Methoden
@@ -197,10 +176,6 @@ public class APIServer {
     }
 
     // BewertungDAO-Methoden
-    public void insertBewertung(int terminId, int spielerId, int gastgeberSterne, String gastgeberKommentar, int essenSterne, String essenKommentar, int allgemeinSterne, String allgemeinKommentar) {
-        bewertungDAO.insertBewertung(terminId, spielerId, gastgeberSterne, gastgeberKommentar, essenSterne, essenKommentar, allgemeinSterne, allgemeinKommentar);
-    }
-
     public List<Bewertung> getAlleBewertungen() {
         return bewertungDAO.getAlleBewertungen();
     }
@@ -210,7 +185,7 @@ public class APIServer {
     }
 
     public Bewertung getBewertungByTerminUndSpieler(int terminId, int spielerId) {
-        return bewertungDAO.getBewertungByTermindUndSpieler(terminId, spielerId);
+        return bewertungDAO.getBewertungByTerminUndSpieler(terminId, spielerId);
     }
 
     public void updateBewertungen(int id, int terminId, int spielerId, int gastgeberSterne, String gastgeberKommentar, int essenSterne, String essenKommentar, int allgemeinSterne, String allgemeinKommentar) {
@@ -221,11 +196,7 @@ public class APIServer {
         bewertungDAO.deleteBewertungen(id);
     }
 
-    public void speicherBewertung(int terminId, int spielerId,
-                              int gastgeberSterne, String gastgeberKommentar,
-                              int essenSterne, String essenKommentar,
-                              int allgemeinSterne, String allgemeinKommentar) {
-
+    public void speicherBewertung(int terminId, int spielerId, int gastgeberSterne, String gastgeberKommentar, int essenSterne, String essenKommentar, int allgemeinSterne, String allgemeinKommentar) { // ersetzt CRUD insert
         bewertungDAO.insertBewertung(terminId, spielerId, gastgeberSterne, gastgeberKommentar, essenSterne, essenKommentar, allgemeinSterne, allgemeinKommentar);
     }
 
@@ -254,10 +225,6 @@ public class APIServer {
     }
 
     // ChatnachrichtDAO-Methoden
-    public void insertChatnachrichten(int spielerId, String text, String zeitpunkt) {
-        chatnachrichtDAO.insertChatnachrichten(spielerId, text, zeitpunkt);
-    }
-
     public List<Chatnachricht> getAlleChatnachrichten() {
         return chatnachrichtDAO.getAlleChatnachrichten();
     }
@@ -274,7 +241,7 @@ public class APIServer {
         chatnachrichtDAO.deleteChatnachrichten(id);
     }
 
-    public void sendeChatnachricht(int spielerId, String text, String zeitpunkt) {
+    public void sendeChatnachricht(int spielerId, String text, String zeitpunkt) { // ersetzt CRUD insert
         chatnachrichtDAO.insertChatnachrichten(spielerId, text, zeitpunkt);
     }
 

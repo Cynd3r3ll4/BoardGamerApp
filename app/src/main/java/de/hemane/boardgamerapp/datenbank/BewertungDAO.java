@@ -143,7 +143,7 @@ public class BewertungDAO {
         return existiert;
     }
 
-    public Bewertung getBewertungByTermindUndSpieler(int terminId, int spielerId) {
+    public Bewertung getBewertungByTerminUndSpieler(int terminId, int spielerId) {
 
         SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
 

@@ -5,15 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hemane.boardgamerapp.helfer.DatumHelfer;
 import de.hemane.boardgamerapp.klassen.Termin;
 
 public class TerminDAO {
     private DBVerwaltung dbVerwaltung;
-
-    public TerminDAO(Context context) { // für SQLite-Zugriff über DBVerwaltung (kein direkter Zugriff)
+    public TerminDAO(Context context) { // für DB-Zugriff über DBVerwaltung
         dbVerwaltung = new DBVerwaltung(context);
     }
 
@@ -49,7 +50,7 @@ public class TerminDAO {
             (cursor.moveToNext());
         }
 
-        cursor.close();
+        cursor.close(); // schließen, sonst Gefahr von Memory Leaks
         db.close();
 
         return terminListe;
@@ -74,6 +75,31 @@ public class TerminDAO {
         db.close();
 
         return termin;
+    }
+
+    public Termin getLetzterTerminVonGastgeber(int spielerId) {
+
+        List<Termin> alleTermine = getAlleTermine();
+
+        Termin letzterTermin = null;
+        LocalDateTime letztesDatum = null;
+        LocalDateTime jetzt = LocalDateTime.now();
+
+        for (Termin t : alleTermine) {
+
+            if (t.getGastgeberId() == spielerId) {
+
+                LocalDateTime datum = DatumHelfer.parseDatum(t.getDatum());
+
+                if (datum != null && datum.isBefore(jetzt)) { // nur vergangene Termine berücksichtigen
+                    if (letztesDatum == null || datum.isAfter(letztesDatum)) { // jüngsten vergangenen Termin finden
+                        letzterTermin = t;
+                        letztesDatum = datum;
+                    }
+                }
+            }
+        }
+        return letzterTermin;
     }
 
     public void updateTermin(int id, String datum, int gastgeberId) {

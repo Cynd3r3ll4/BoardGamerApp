@@ -31,4 +31,6 @@
     <string name="abs">Absage</string>
     <string name="zusage">Ich habe doch Zeit und möchte spontan teilnehmen! :)</string>
     <string name="absage">Mir ist etwas dazwischen gekommen und ich muss leider spontan absagen. :(</string>
+    <string name="teilnehmer_eintrag">- %1$s</string>
+    <string name="metadaten_trenner">%1$s • %2$s</string>
 </resources>

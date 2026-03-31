@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBVerwaltung extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "boardgamerapp.db"; //Name der DB
-    private static final int DATABASE_VERSION = 6; // Version der DB--> erhöhen bei Änderungen an Tabellen/Datensätzen
+    private static final String DATABASE_NAME = "boardgamerapp.db";
+    private static final int DATABASE_VERSION = 6; // Version der DB--> manuell erhöhen bei Änderungen an Tabellen/Datensätzen
     private long spieler1IdSave;
     private long spieler2IdSave;
     private long spieler3IdSave;
@@ -22,7 +22,7 @@ public class DBVerwaltung extends SQLiteOpenHelper {
 
 
     @Override
-    public void onCreate(SQLiteDatabase db) { // erstellt Tabellen + befüllt mit Initialdaten
+    public void onCreate(SQLiteDatabase db) {
         erstelleTabellen(db);
         erstelleAlleInitialdaten(db);
     }
@@ -102,27 +102,27 @@ public class DBVerwaltung extends SQLiteOpenHelper {
     private void insertSpieler(SQLiteDatabase db){
         ContentValues values = new ContentValues();
 
-        values.put("name", "Tarlyne"); //Spieler1 erstellen
+        values.put("name", "Tarlyne");
         long spieler1Id =db.insert("Spieler", null, values);
 
         values.clear();
-        values.put("name", "Cynd3r3ll4"); //Spieler2 erstellen
+        values.put("name", "Cynd3r3ll4");
         long spieler2Id =db.insert("Spieler", null, values);
 
         values.clear();
-        values.put("name", "Garlyne"); //Spieler3 erstellen
+        values.put("name", "Garlyne");
         long spieler3Id =db.insert("Spieler", null, values);
 
         values.clear();
-        values.put("name", "LordDiaper"); //Spieler4 erstellen
+        values.put("name", "LordDiaper");
         long spieler4Id =db.insert("Spieler", null, values);
 
         values.clear();
-        values.put("name", "Starlyne"); //Spieler5 erstellen
+        values.put("name", "Starlyne");
         long spieler5Id =db.insert("Spieler", null, values);
 
         values.clear();
-        values.put("name", "Thorabur"); //Spieler6 erstellen
+        values.put("name", "Thorabur");
         long spieler6Id =db.insert("Spieler", null, values);
 
         spieler1IdSave = spieler1Id;
@@ -203,7 +203,7 @@ public class DBVerwaltung extends SQLiteOpenHelper {
 
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { // Tabellenänderungen übernehmen
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS Bewertung");
         db.execSQL("DROP TABLE IF EXISTS Chatnachricht");
         db.execSQL("DROP TABLE IF EXISTS Abstimmung");

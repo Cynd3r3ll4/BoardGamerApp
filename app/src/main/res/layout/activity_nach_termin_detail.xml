@@ -32,11 +32,12 @@
         android:textSize="18sp"
         android:layout_marginTop="8dp"/>
 
-    <ListView
+    <!-- Geändert von ListView zu LinearLayout für dynamische Höhe in ScrollView -->
+    <LinearLayout
         android:id="@+id/listTeilnehmer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"
+        android:orientation="vertical"
         android:layout_marginBottom="16dp" />
 
     <TextView
@@ -65,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/erlbewert"
-        android:textColor="@color/grey"
+        android:textColor="@android:color/darker_gray"
         android:layout_marginTop="8dp"/>
 
     <TextView
@@ -226,7 +227,7 @@
 
     <Button
         android:id="@+id/buttonBewertung"
-        android:layout_width="232dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/bsenden" />

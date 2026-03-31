@@ -2,9 +2,7 @@ package de.hemane.boardgamerapp.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -12,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hemane.boardgamerapp.R;
@@ -26,7 +23,7 @@ public class BewertungActivity extends AppCompatActivity {
     private APIServer apiServer;
     private TextView textDatum;
     private TextView textGastgeber;
-    private ListView listTeilnehmer;
+    private LinearLayout listTeilnehmer; // Geändert von ListView zu LinearLayout
     private TextView textGewinnerSpiel;
     private int spielerId;
     private Termin termin;
@@ -92,26 +89,21 @@ public class BewertungActivity extends AppCompatActivity {
         }
 
     private void ladeTeilnehmerliste() {
-
         List<Spieler> teilnehmer = apiServer.getTeilnehmerByTerminId(termin.getId());
-
-        List<String> namen = new ArrayList<>();
+        listTeilnehmer.removeAllViews();
 
         if (teilnehmer.isEmpty()) {
-            namen.add(getString(R.string.keineTeilnehmer));
+            TextView tv = new TextView(this);
+            tv.setText(getString(R.string.keineTeilnehmer));
+            listTeilnehmer.addView(tv);
         } else {
             for (Spieler s : teilnehmer) {
-                namen.add(s.getName());
+                TextView tv = new TextView(this);
+                tv.setText(getString(R.string.teilnehmer_eintrag, s.getName()));
+                tv.setTextSize(16);
+                listTeilnehmer.addView(tv);
             }
         }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                namen
-        );
-
-        listTeilnehmer.setAdapter(adapter);
     }
 
     private void ladeGewinnerSpiel() {

@@ -31,10 +31,13 @@
             android:textSize="18sp"
             android:layout_marginTop="8dp"/>
 
-        <ListView
+        <!-- Geändert von ListView zu LinearLayout für ScrollView-Kompatibilität -->
+        <LinearLayout
             android:id="@+id/listTeilnehmer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="match_parent"

@@ -2,11 +2,10 @@ package de.hemane.boardgamerapp.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hemane.boardgamerapp.R;
@@ -32,7 +30,7 @@ public class NachTerminDetailActivity extends AppCompatActivity {
     private TextView textGastgeber;
     private int terminId;
     private Termin termin;
-    private ListView listTeilnehmer;
+    private LinearLayout listTeilnehmer;
     private TextView textGewinnerSpiel;
     private int gastgeberBewertung = 0;
     private int essenBewertung = 0;
@@ -52,11 +50,10 @@ public class NachTerminDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nach_termin_detail);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
-        // Pfeil explizit setzen
         toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        textDatum = findViewById(R.id.textDatum); // Views aus Layout ansprechen
+        textDatum = findViewById(R.id.textDatum);
         textGastgeber = findViewById(R.id.textGastgeber);
         listTeilnehmer = findViewById(R.id.listTeilnehmer);
         textGewinnerSpiel = findViewById(R.id.textGewinnerSpiel);
@@ -90,10 +87,9 @@ public class NachTerminDetailActivity extends AppCompatActivity {
                 findViewById(R.id.allgStern5)
         };
 
-        for (int i = 0; i < gastgeberSterne.length; i++) { // für jeden Stern einzeln
+        for (int i = 0; i < gastgeberSterne.length; i++) {
             final int index = i;
-
-            gastgeberSterne[i].setOnClickListener(v -> { // wenn geklickt → speichern + updaten
+            gastgeberSterne[i].setOnClickListener(v -> {
                 gastgeberBewertung = index + 1;
                 updateSterne(gastgeberSterne, gastgeberBewertung);
             });
@@ -101,7 +97,6 @@ public class NachTerminDetailActivity extends AppCompatActivity {
 
         for (int i = 0; i < essenSterne.length; i++) {
             final int index = i;
-
             essenSterne[i].setOnClickListener(v -> {
                 essenBewertung = index + 1;
                 updateSterne(essenSterne, essenBewertung);
@@ -110,7 +105,6 @@ public class NachTerminDetailActivity extends AppCompatActivity {
 
         for (int i = 0; i < allgemeinSterne.length; i++) {
             final int index = i;
-
             allgemeinSterne[i].setOnClickListener(v -> {
                 allgemeinBewertung = index + 1;
                 updateSterne(allgemeinSterne, allgemeinBewertung);
@@ -118,7 +112,6 @@ public class NachTerminDetailActivity extends AppCompatActivity {
         }
 
         buttonBewertung.setOnClickListener(v -> {
-
             apiServer.speicherBewertung(
                     terminId,
                     spielerId,
@@ -129,28 +122,23 @@ public class NachTerminDetailActivity extends AppCompatActivity {
                     allgemeinBewertung,
                     editAllgemeinKommentar.getText().toString()
             );
-
             Toast.makeText(this, getString(R.string.btoast), Toast.LENGTH_SHORT).show();
-
             disableBewertung();
         });
 
         apiServer = new APIServer(this);
-
         terminId = getIntent().getIntExtra("terminId", -1);
-
         ladeTermin();
     }
 
     private void ladeTermin() {
-        termin = apiServer.getTerminById(terminId); // Termin laden
-
-        Spieler gastgeber = apiServer.getSpielerById(termin.getGastgeberId()); // Gastgeber laden
+        termin = apiServer.getTerminById(terminId);
+        Spieler gastgeber = apiServer.getSpielerById(termin.getGastgeberId());
 
         textDatum.setText(termin.getDatum());
         textGastgeber.setText(getString(R.string.gastgeber, gastgeber.getName()));
 
-        ladeTeilnehmerliste(); // hier, damit es sich bei Termin Neuladen auch aktualisiert, weil abhängig
+        ladeTeilnehmerliste();
         ladeGewinnerSpiel();
         ladeBewertung();
         aufBewertungPruefen();
@@ -158,26 +146,28 @@ public class NachTerminDetailActivity extends AppCompatActivity {
     }
 
     private void ladeTeilnehmerliste() {
-        List<Spieler> teilnehmer = apiServer.getTeilnehmerByTerminId(terminId); // Teilnehmerliste nach Termin laden
+        List<Spieler> teilnehmer = apiServer.getTeilnehmerByTerminId(terminId);
+        listTeilnehmer.removeAllViews();
 
-        List<String> namen = new ArrayList<>(); // Liste mit allen Namen erstellen
-
-        for (Spieler s : teilnehmer) {
-            namen.add(s.getName());
+        if (teilnehmer.isEmpty()) {
+            TextView tv = new TextView(this);
+            tv.setText(getString(R.string.keineTeilnehmer));
+            tv.setPadding(0, 10, 0, 10);
+            listTeilnehmer.addView(tv);
+        } else {
+            for (Spieler s : teilnehmer) {
+                TextView tv = new TextView(this);
+                // Platzhalter aus strings.xml nutzen
+                tv.setText(getString(R.string.teilnehmer_eintrag, s.getName()));
+                tv.setPadding(0, 5, 0, 5);
+                tv.setTextSize(16); // In Java ohne "sp"
+                listTeilnehmer.addView(tv);
+            }
         }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>( // in ListView rein
-                this,
-                android.R.layout.simple_list_item_1,
-                namen
-        );
-
-        listTeilnehmer.setAdapter(adapter);
     }
 
     private void ladeGewinnerSpiel() {
         Spiel spiel = apiServer.getGewinnerSpiel(terminId);
-
         if (spiel != null) {
             textGewinnerSpiel.setText(spiel.getName());
         } else {
@@ -185,7 +175,7 @@ public class NachTerminDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void updateSterne(ImageView[] sterne, int bewertung) { //Sterne bei Klick visuell anpassen
+    private void updateSterne(ImageView[] sterne, int bewertung) {
         for (int i = 0; i < sterne.length; i++) {
             if (i < bewertung) {
                 sterne[i].setImageResource(android.R.drawable.btn_star_big_on);
@@ -196,10 +186,8 @@ public class NachTerminDetailActivity extends AppCompatActivity {
     }
 
     private void disableBewertung() {
-
         buttonBewertung.setEnabled(false);
         buttonBewertung.setAlpha(0.5f);
-
         editGastgeberKommentar.setEnabled(false);
         editEssenKommentar.setEnabled(false);
         editAllgemeinKommentar.setEnabled(false);
@@ -208,12 +196,10 @@ public class NachTerminDetailActivity extends AppCompatActivity {
             s.setEnabled(false);
             s.setAlpha(0.5f);
         }
-
         for (ImageView s : essenSterne) {
             s.setEnabled(false);
             s.setAlpha(0.5f);
         }
-
         for (ImageView s : allgemeinSterne) {
             s.setEnabled(false);
             s.setAlpha(0.5f);
@@ -221,36 +207,26 @@ public class NachTerminDetailActivity extends AppCompatActivity {
     }
 
     private void aufBewertungPruefen() {
-
-        boolean hatBewertet = apiServer.hatTerminBewertet(terminId, spielerId);
-
-        if (hatBewertet) {
+        if (apiServer.hatTerminBewertet(terminId, spielerId)) {
             disableBewertung();
         }
     }
 
     private void checkeZeitNachTermin() {
-
-        boolean darfBewerten = DatumHelfer.istZweiTageNachTermin(termin.getDatum());
-
-        if (darfBewerten) { // wenn noch nicht 2 Tage her, alles gesperrt
+        if (DatumHelfer.istZweiTageNachTermin(termin.getDatum())) {
             disableBewertung();
         }
     }
 
-    private void ladeBewertung() { // Bewertungen nach Absenden anzeigen
-
+    private void ladeBewertung() {
         Bewertung bewertung = apiServer.getBewertungByTerminUndSpieler(terminId, spielerId);
-
         if (bewertung != null) {
             updateSterne(gastgeberSterne, bewertung.getGastgeberSterne());
             updateSterne(essenSterne, bewertung.getEssenSterne());
             updateSterne(allgemeinSterne, bewertung.getAllgemeinSterne());
-
             editGastgeberKommentar.setText(bewertung.getGastgeberKommentar());
             editEssenKommentar.setText(bewertung.getEssenKommentar());
             editAllgemeinKommentar.setText(bewertung.getAllgemeinKommentar());
-
             disableBewertung();
         }
     }

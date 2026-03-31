@@ -18,34 +18,34 @@ public class SpielerDAO {
         dbVerwaltung = new DBVerwaltung(context);
     }
 
-    public void insertSpieler(String name) { // Spieler in DB-Tabelle hinzufügen
-        SQLiteDatabase db = dbVerwaltung.getWritableDatabase(); // schreibbare DB
+    public void insertSpieler(String name) {
+        SQLiteDatabase db = dbVerwaltung.getWritableDatabase();
 
-        ContentValues values = new ContentValues(); // um Werte zu speichern
+        ContentValues values = new ContentValues();
         values.put("name", name);
 
-        db.insert("Spieler", null, values); // Einfügen in SQLite (Tabellen- & Spaltenname)
+        db.insert("Spieler", null, values);
 
         db.close();
     }
 
-    public List<Spieler> getAlleSpieler() { // Liste aller Spieler aus DB holen
-        List<Spieler> spielerListe = new ArrayList<>(); // Array-Liste anlegen
+    public List<Spieler> getAlleSpieler() {
+        List<Spieler> spielerListe = new ArrayList<>();
 
-        SQLiteDatabase db = dbVerwaltung.getReadableDatabase(); // lesbare DB
+        SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM Spieler", null); // holt alle Elemente aus DB, um sie in Objekte zu verwandeln
+        Cursor cursor = db.rawQuery("SELECT * FROM Spieler", null);
 
-        if (cursor.moveToFirst()) { // bei erster Zeile der Tabelle beginnend
+        if (cursor.moveToFirst()) {
             do {
-                int spielerId = cursor.getInt(0); // Spieler-ID aus DB holen
-                String name = cursor.getString(1); // Spieler-Name aus DB holen
+                int spielerId = cursor.getInt(0);
+                String name = cursor.getString(1);
 
-                Spieler spieler = new Spieler(spielerId, name); // Objekt aus den geholten Daten erstellen
+                Spieler spieler = new Spieler(spielerId, name);
 
-                spielerListe.add(spieler); // neues Spieler-Objekt in Liste hinzufügen
+                spielerListe.add(spieler);
             } while
-            (cursor.moveToNext()); // zur nächsten Zeile gehen
+            (cursor.moveToNext());
         }
 
         cursor.close();
@@ -54,7 +54,7 @@ public class SpielerDAO {
         return spielerListe;
     }
 
-    public Spieler getSpielerById(int id) { // einzelne Spieler über bestimmte ID raussuchen
+    public Spieler getSpielerById(int id) {
         SQLiteDatabase db = dbVerwaltung.getReadableDatabase();
 
         Cursor cursor= db.rawQuery("SELECT * FROM Spieler WHERE id=?", new String[]{String.valueOf(id)});
@@ -74,7 +74,7 @@ public class SpielerDAO {
          return spieler;
     }
 
-    public void updateSpieler(int id, String name) { // Daten in Tabellen updaten/ ändern)
+    public void updateSpieler(int id, String name) {
         SQLiteDatabase db= dbVerwaltung.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -85,7 +85,7 @@ public class SpielerDAO {
          db.close();
     }
 
-    public void deleteSpieler(int id) { // Spieler anhand der ID löschen
+    public void deleteSpieler(int id) {
         SQLiteDatabase db = dbVerwaltung.getWritableDatabase();
 
         db.delete("Spieler", "id=?", new String[]{String.valueOf(id)});
