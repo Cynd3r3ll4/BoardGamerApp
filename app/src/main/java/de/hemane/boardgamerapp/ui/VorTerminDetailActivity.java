@@ -2,7 +2,6 @@ package de.hemane.boardgamerapp.ui;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -40,11 +39,10 @@ public class VorTerminDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vor_termin_detail);
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
-        // Pfeil explizit für diese Activity setzen
         toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        textDatum = findViewById(R.id.textDatum); // Views aus Layout ansprechen
+        textDatum = findViewById(R.id.textDatum);
         textGastgeber = findViewById(R.id.textGastgeber);
         checkTeilnahme = findViewById(R.id.checkTeilnahme);
         radioGroupSpiele = findViewById(R.id.radioGroupSpiele);
@@ -59,7 +57,7 @@ public class VorTerminDetailActivity extends AppCompatActivity {
         ladeSpiele();
         checkeFristablauf();
 
-        bearbeiteSpielVorschlag.setOnEditorActionListener((v, actionId, event) -> { // Eingabefeld, um Spiel vorzuschlagen
+        bearbeiteSpielVorschlag.setOnEditorActionListener((v, actionId, event) -> {
             if (!checkTeilnahme.isChecked()) { // nur wenn Spieler teilnimmt
                 return true;
             }
@@ -70,7 +68,7 @@ public class VorTerminDetailActivity extends AppCompatActivity {
 
                 apiServer.insertSpiel(name, terminId);
 
-                bearbeiteSpielVorschlag.setText("");
+                bearbeiteSpielVorschlag.setText(""); // Textfeld nach Eingabe wieder leeren
 
                 ladeSpiele();
             }
@@ -80,9 +78,9 @@ public class VorTerminDetailActivity extends AppCompatActivity {
     }
 
     private void ladeTermin() {
-        termin = apiServer.getTerminById(terminId); // Termin laden
+        termin = apiServer.getTerminById(terminId);
 
-        Spieler gastgeber = apiServer.getSpielerById(termin.getGastgeberId()); // Gastgeber laden
+        Spieler gastgeber = apiServer.getSpielerById(termin.getGastgeberId());
 
         textDatum.setText(termin.getDatum());
         textGastgeber.setText(getString(R.string.gastgeber, gastgeber.getName()));
@@ -90,10 +88,10 @@ public class VorTerminDetailActivity extends AppCompatActivity {
 
     private void setupTeilnahme() {
 
-        SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE); // aktuellen Spieler aus Gerätespeicher holen
+        SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
         int spielerId = prefs.getInt("spielerId", -1);
 
-        Teilnahme teilnahme = apiServer.getTeilnahmeBySpielerUndTermin(spielerId, terminId); // Teilnahme überprüfen
+        Teilnahme teilnahme = apiServer.getTeilnahmeBySpielerUndTermin(spielerId, terminId);
 
         if (teilnahme != null) {
             checkTeilnahme.setChecked(teilnahme.getTeilnahme() == 1);
@@ -105,30 +103,26 @@ public class VorTerminDetailActivity extends AppCompatActivity {
             updateUIStatus(isChecked);
 
             if (!isChecked) {
-                apiServer.deleteAbstimmungBySpieler(spielerId);
+                apiServer.deleteAbstimmungBySpieler(spielerId); // Voting löschen, falls Spieler Teilnahme zurückzieht
             }
 
             int wert = isChecked ? 1 : 0;
 
-            Log.d("TEILNAHME", "Checkbox geändert: " + wert); // um in Log die datensätze zu überprüfen
-
             if (teilnahme == null) {
-                apiServer.insertTeilnahme(spielerId, terminId, wert); // neue Teilnahme in DB anlegen
+                apiServer.insertTeilnahme(spielerId, terminId, wert);
             } else {
-                apiServer.updateTeilnahme( // Teilnahme Datensatz aktualisieren
+                apiServer.updateTeilnahme(
                         teilnahme.getId(),
                         spielerId,
                         terminId,
                         wert
                 );
             }
-
-            Log.d("TEILNAHME", "Gespeichert für Spieler " + spielerId + " bei Termin " + terminId); // für Log
         });
     }
 
     private void ladeSpiele() {
-        SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE); // aktueller Spieler
+        SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
         int spielerId = prefs.getInt("spielerId", -1);
 
         int abgestimmtesSpielId = apiServer.getAbstimmungBySpieler(spielerId);
@@ -155,9 +149,9 @@ public class VorTerminDetailActivity extends AppCompatActivity {
             radioGroupSpiele.addView(radioButton);
         }
 
-        radioGroupSpiele.setOnCheckedChangeListener((group, checkedId) -> { // Klick-Button zur Abstimmung
-            if (!checkTeilnahme.isChecked()) { // prüft ob Checkbox nicht abgehakt ist
-                return; // wenn ja (nicht abgehakt), Rest
+        radioGroupSpiele.setOnCheckedChangeListener((group, checkedId) -> {
+            if (!checkTeilnahme.isChecked()) {
+                return;
             }
 
             RadioButton selected = findViewById(checkedId);
@@ -170,7 +164,7 @@ public class VorTerminDetailActivity extends AppCompatActivity {
 
                 apiServer.insertAbstimmung(spielerId, spielId); // neue Abstimmung speichern
 
-                ladeSpiele(); // Abstimmung aktualisieren
+                ladeSpiele();
                 updateUIStatus(checkTeilnahme.isChecked()); // Radiobuttons updaten, damit ausgegraut bleibt, falls keine Teilnahme
             }
         });
@@ -178,13 +172,13 @@ public class VorTerminDetailActivity extends AppCompatActivity {
 
     private void updateUIStatus(boolean nimmtTeil) {
 
-        for (int i = 0; i < radioGroupSpiele.getChildCount(); i++) { // deaktivieren der einzelnen Radiobuttons
+        for (int i = 0; i < radioGroupSpiele.getChildCount(); i++) {
             radioGroupSpiele.getChildAt(i).setEnabled(nimmtTeil);
         }
 
         bearbeiteSpielVorschlag.setEnabled(nimmtTeil);
 
-        float alpha = nimmtTeil ? 1.0f : 0.5f; // ausgrauen
+        float alpha = nimmtTeil ? 1.0f : 0.5f;
         radioGroupSpiele.setAlpha(alpha);
         bearbeiteSpielVorschlag.setAlpha(alpha);
     }
@@ -195,11 +189,11 @@ public class VorTerminDetailActivity extends AppCompatActivity {
 
         if (abgelaufen) { // wenn abgelaufen, sperren & ausgrauen
 
-            checkTeilnahme.setEnabled(false); // sperren
+            checkTeilnahme.setEnabled(false);
             radioGroupSpiele.setEnabled(false);
             bearbeiteSpielVorschlag.setEnabled(false);
 
-            checkTeilnahme.setAlpha(0.5f); // ausgrauen
+            checkTeilnahme.setAlpha(0.5f);
             radioGroupSpiele.setAlpha(0.5f);
             bearbeiteSpielVorschlag.setAlpha(0.5f);
         }

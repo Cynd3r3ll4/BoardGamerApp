@@ -63,23 +63,20 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(this, nachrichtenListe, aktuellerSpielerId);
         listViewChat.setAdapter(adapter);
 
-        // Beim ersten Laden ganz nach unten scrollen
-        listViewChat.post(() -> listViewChat.setSelection(adapter.getCount() - 1));
+        listViewChat.post(() -> listViewChat.setSelection(adapter.getCount() - 1)); // beim ersten Laden in der Chatliste nach unten scrollen
 
         buttonSenden.setOnClickListener(v -> {
             String text = editTextNachricht.getText().toString().trim();
             if (text.isEmpty()) return;
 
             sendeNachricht(text);
-            editTextNachricht.setText("");
+            editTextNachricht.setText(""); // Eingabefeld leeren
         });
 
-        //noinspection CodeBlock2Expr
-        buttonAbsage.setOnClickListener(v -> {
+        buttonAbsage.setOnClickListener(v -> { //Nachricht senden und Teilnahme aktualisieren
             sendeChatUndUpdateTeilnahme(getString(R.string.absage), 0);
         });
 
-        //noinspection CodeBlock2Expr
         buttonZusage.setOnClickListener(v -> {
             sendeChatUndUpdateTeilnahme(getString(R.string.zusage), 1);
         });
@@ -98,9 +95,8 @@ public class ChatActivity extends AppCompatActivity {
             nachrichtenListe.clear();
             nachrichtenListe.addAll(neu);
             adapter.notifyDataSetChanged();
-            
-            // Nach jeder neuen Nachricht nach unten scrollen
-            listViewChat.post(() -> listViewChat.setSelection(adapter.getCount() - 1));
+
+            listViewChat.post(() -> listViewChat.setSelection(adapter.getCount() - 1)); // nach unten scrollen nach neuer Nachricht (Chat-Gefühl)
         }
     }
 
@@ -132,16 +128,14 @@ public class ChatActivity extends AppCompatActivity {
 
         boolean innerhalbZweiTage = DatumHelfer.istZweiTagesFristAbgelaufen(naechsterTermin.getDatum());
 
-        if (!innerhalbZweiTage) {
+        if (!innerhalbZweiTage) { // wenn icht schon 2 Tage vor Termin → ausblenden
             layoutQuickActions.setVisibility(View.GONE);
             return;
         }
 
         layoutQuickActions.setVisibility(View.VISIBLE);
         
-        Teilnahme teilnahme = apiServer.getTeilnahmeBySpielerUndTermin(aktuellerSpielerId, naechsterTermin.getId());
-        
-
+        Teilnahme teilnahme = apiServer.getTeilnahmeBySpielerUndTermin(aktuellerSpielerId, naechsterTermin.getId()); // Teilnahmestatus des Spielers
 
         if (teilnahme != null && teilnahme.getTeilnahme() == 1) { // wenn teilnahme == null (noch kein Eintrag) / teilnahme == 0 (abgesagt) --> Zusage-Button zeigen
             buttonAbsage.setVisibility(View.VISIBLE);
@@ -150,18 +144,15 @@ public class ChatActivity extends AppCompatActivity {
             buttonAbsage.setVisibility(View.GONE);
             buttonZusage.setVisibility(View.VISIBLE);
         }
-        
         buttonAbsage.setEnabled(true);
         buttonZusage.setEnabled(true);
     }
 
     private void sendeChatUndUpdateTeilnahme(String text, int teilnahmeWert) {
-        buttonAbsage.setEnabled(false);
+        buttonAbsage.setEnabled(false); // Deaktiviert umd Doppel-Klicks zu vermeiden
         buttonZusage.setEnabled(false);
 
-
-        sendeNachricht(text); // Nachricht senden
-
+        sendeNachricht(text);
 
         Teilnahme vorhanden = apiServer.getTeilnahmeBySpielerUndTermin(aktuellerSpielerId, naechsterTermin.getId()); // Teilnahme in DB prüfen & updaten / neu anlegen
 
@@ -170,8 +161,6 @@ public class ChatActivity extends AppCompatActivity {
         } else {
             apiServer.updateTeilnahmeOhneId(aktuellerSpielerId, naechsterTermin.getId(), teilnahmeWert);
         }
-
-
         setVorgefertigteNachrichten(); // Ansicht aktualisieren
     }
 }

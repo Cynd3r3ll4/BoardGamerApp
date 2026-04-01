@@ -21,6 +21,7 @@ import de.hemane.boardgamerapp.helfer.DatumHelfer;
 import de.hemane.boardgamerapp.klassen.Bewertung;
 import de.hemane.boardgamerapp.klassen.Spiel;
 import de.hemane.boardgamerapp.klassen.Spieler;
+import de.hemane.boardgamerapp.klassen.Teilnahme;
 import de.hemane.boardgamerapp.klassen.Termin;
 
 public class NachTerminDetailActivity extends AppCompatActivity {
@@ -87,7 +88,7 @@ public class NachTerminDetailActivity extends AppCompatActivity {
                 findViewById(R.id.allgStern5)
         };
 
-        for (int i = 0; i < gastgeberSterne.length; i++) {
+        for (int i = 0; i < gastgeberSterne.length; i++) { // KLick-Listener für jeden einzelnen Stern
             final int index = i;
             gastgeberSterne[i].setOnClickListener(v -> {
                 gastgeberBewertung = index + 1;
@@ -143,11 +144,13 @@ public class NachTerminDetailActivity extends AppCompatActivity {
         ladeBewertung();
         aufBewertungPruefen();
         checkeZeitNachTermin();
+        checkeTeilnahme();
     }
 
     private void ladeTeilnehmerliste() {
         List<Spieler> teilnehmer = apiServer.getTeilnehmerByTerminId(terminId);
-        listTeilnehmer.removeAllViews();
+        listTeilnehmer.removeAllViews(); // Layout leeren, damit keine alten Einträge stehen bleiben
+
 
         if (teilnehmer.isEmpty()) {
             TextView tv = new TextView(this);
@@ -157,10 +160,9 @@ public class NachTerminDetailActivity extends AppCompatActivity {
         } else {
             for (Spieler s : teilnehmer) {
                 TextView tv = new TextView(this);
-                // Platzhalter aus strings.xml nutzen
                 tv.setText(getString(R.string.teilnehmer_eintrag, s.getName()));
                 tv.setPadding(0, 5, 0, 5);
-                tv.setTextSize(16); // In Java ohne "sp"
+                tv.setTextSize(16);
                 listTeilnehmer.addView(tv);
             }
         }
@@ -214,6 +216,13 @@ public class NachTerminDetailActivity extends AppCompatActivity {
 
     private void checkeZeitNachTermin() {
         if (DatumHelfer.istZweiTageNachTermin(termin.getDatum())) {
+            disableBewertung();
+        }
+    }
+
+    private void checkeTeilnahme() { // nur Spieler, die teilgenommen haben, dürfen bewerten
+        Teilnahme teilnahme = apiServer.getTeilnahmeBySpielerUndTermin(spielerId, terminId);
+        if (teilnahme == null || teilnahme.getTeilnahme() != 1) {
             disableBewertung();
         }
     }

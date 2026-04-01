@@ -57,7 +57,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/nachricht"
             android:maxLines="4"
-            android:inputType="textCapSentences|textAutoCorrect|textMultiLine" />
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/buttonSenden"

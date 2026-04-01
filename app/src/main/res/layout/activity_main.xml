@@ -21,7 +21,6 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <!-- Erste Liste: Nimmt flexiblen Platz ein -->
         <ListView
             android:id="@+id/listViewTermine"
             android:layout_width="match_parent"
@@ -38,7 +37,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Zweite Liste: Nimmt ebenfalls flexiblen Platz ein -->
         <ListView
             android:id="@+id/listViewLetzterTermin"
             android:layout_width="match_parent"
@@ -49,7 +47,6 @@
 
     </LinearLayout>
 
-    <!-- FOOTER BAR -->
     <LinearLayout
         android:id="@+id/footerBar"
         android:layout_width="match_parent"

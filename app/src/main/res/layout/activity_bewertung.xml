@@ -31,7 +31,6 @@
             android:textSize="18sp"
             android:layout_marginTop="8dp"/>
 
-        <!-- Geändert von ListView zu LinearLayout für ScrollView-Kompatibilität -->
         <LinearLayout
             android:id="@+id/listTeilnehmer"
             android:layout_width="match_parent"
@@ -60,11 +59,6 @@
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_marginTop="16dp"/>
-
-
-        <!-- ========================= -->
-        <!-- BEWERTUNG: GASTGEBER -->
-        <!-- ========================= -->
 
         <TextView
             android:layout_width="match_parent"

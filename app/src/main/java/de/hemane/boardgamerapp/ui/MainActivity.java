@@ -1,4 +1,4 @@
-package de.hemane.boardgamerapp;
+package de.hemane.boardgamerapp.ui;
 
 import static de.hemane.boardgamerapp.helfer.DatumHelfer.parseDatum;
 
@@ -15,13 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hemane.boardgamerapp.R;
 import de.hemane.boardgamerapp.controller.APIServer;
 import de.hemane.boardgamerapp.klassen.Spieler;
 import de.hemane.boardgamerapp.klassen.Termin;
-import de.hemane.boardgamerapp.ui.BewertungActivity;
-import de.hemane.boardgamerapp.ui.ChatActivity;
-import de.hemane.boardgamerapp.ui.NachTerminDetailActivity;
-import de.hemane.boardgamerapp.ui.VorTerminDetailActivity;
 
 public class MainActivity extends AppCompatActivity {
 

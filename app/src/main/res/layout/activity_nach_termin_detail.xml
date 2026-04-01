@@ -32,7 +32,6 @@
         android:textSize="18sp"
         android:layout_marginTop="8dp"/>
 
-    <!-- Geändert von ListView zu LinearLayout für dynamische Höhe in ScrollView -->
     <LinearLayout
         android:id="@+id/listTeilnehmer"
         android:layout_width="match_parent"
@@ -86,30 +85,35 @@
             android:id="@+id/gastgeberStern1"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/gastgeberStern2"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/gastgeberStern3"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/gastgeberStern4"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/gastgeberStern5"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
     </LinearLayout>
@@ -119,7 +123,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/kommentar"
-        android:maxLength="250"/>
+        android:maxLength="250"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences|textMultiLine"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -138,30 +144,35 @@
             android:id="@+id/essenStern1"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/essenStern2"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/essenStern3"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/essenStern4"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/essenStern5"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
     </LinearLayout>
@@ -171,7 +182,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/kommentar"
-        android:maxLength="250"/>
+        android:maxLength="250"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences|textMultiLine"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -190,30 +203,35 @@
             android:id="@+id/allgStern1"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/allgStern2"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/allgStern3"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/allgStern4"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
         <ImageView
             android:id="@+id/allgStern5"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@null"
             android:src="@android:drawable/btn_star_big_off"/>
 
     </LinearLayout>
@@ -223,7 +241,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/kommentar"
-        android:maxLength="250"/>
+        android:maxLength="250"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences|textMultiLine"/>
 
     <Button
         android:id="@+id/buttonBewertung"

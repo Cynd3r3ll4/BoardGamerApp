@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.List;
+import java.util.Locale;
 
 import de.hemane.boardgamerapp.R;
 import de.hemane.boardgamerapp.controller.APIServer;
@@ -23,7 +24,7 @@ public class BewertungActivity extends AppCompatActivity {
     private APIServer apiServer;
     private TextView textDatum;
     private TextView textGastgeber;
-    private LinearLayout listTeilnehmer; // Geändert von ListView zu LinearLayout
+    private LinearLayout listTeilnehmer;
     private TextView textGewinnerSpiel;
     private int spielerId;
     private Termin termin;
@@ -46,7 +47,6 @@ public class BewertungActivity extends AppCompatActivity {
             MaterialToolbar toolbar = findViewById(R.id.topAppBar);
             toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
             toolbar.setNavigationOnClickListener(v -> finish());
-
             textDatum = findViewById(R.id.textDatum);
             textGastgeber = findViewById(R.id.textGastgeber);
             listTeilnehmer = findViewById(R.id.listTeilnehmer);
@@ -73,7 +73,7 @@ public class BewertungActivity extends AppCompatActivity {
 
             termin = apiServer.getLetzterTerminVonGastgeber(spielerId);
 
-            if (termin == null) {
+            if (termin == null) { // wenn Spieler noch keinen Termin ausgerichtet hat
                 textDatum.setText(getString(R.string.keinTermin));
                 return;
             }
@@ -90,7 +90,7 @@ public class BewertungActivity extends AppCompatActivity {
 
     private void ladeTeilnehmerliste() {
         List<Spieler> teilnehmer = apiServer.getTeilnehmerByTerminId(termin.getId());
-        listTeilnehmer.removeAllViews();
+        listTeilnehmer.removeAllViews(); // Layout leeren, damit keine alten Einträge stehen bleiben
 
         if (teilnehmer.isEmpty()) {
             TextView tv = new TextView(this);
@@ -112,7 +112,7 @@ public class BewertungActivity extends AppCompatActivity {
 
         if (spiel != null) {
             textGewinnerSpiel.setText(spiel.getName());
-        } else {
+        } else { // wenn keine Abstimmung stattgefunden hat
             textGewinnerSpiel.setText(getString(R.string.keinspiel));
         }
     }
@@ -123,13 +123,13 @@ public class BewertungActivity extends AppCompatActivity {
         float avgEssen = apiServer.getSchnittEssenBewertung(termin.getId());
         float avgAllgemein = apiServer.getSchnittAllgemeinBewertung(termin.getId());
 
-        ratingGastgeber.setRating(avgGastgeber);
+        ratingGastgeber.setRating(avgGastgeber); // Befüllen der RatingBars mit dem Durchschnittswert
         ratingEssen.setRating(avgEssen);
         ratingAllgemein.setRating(avgAllgemein);
 
-        textGastgeberSchnitt.setText(String.format("%.1f", avgGastgeber));
-        textEssenSchnitt.setText(String.format("%.1f", avgEssen));
-        textAllgemeinSchnitt.setText(String.format("%.1f", avgAllgemein));
+        textGastgeberSchnitt.setText(String.format(Locale.getDefault(), "%.1f", avgGastgeber)); // Local.getefault für lokale Anpassung von "," und "."
+        textEssenSchnitt.setText(String.format(Locale.getDefault(), "%.1f", avgEssen));
+        textAllgemeinSchnitt.setText(String.format(Locale.getDefault(), "%.1f", avgAllgemein));
 
         ladeKommentare();
     }
@@ -154,7 +154,7 @@ public class BewertungActivity extends AppCompatActivity {
             if (kommentar == null || kommentar.isEmpty()) continue;
 
             TextView tv = new TextView(this);
-            tv.setText("- " + kommentar);
+            tv.setText(getString(R.string.kommentar_format, kommentar));
 
             layout.addView(tv);
         }

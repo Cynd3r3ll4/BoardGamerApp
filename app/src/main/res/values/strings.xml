@@ -33,4 +33,5 @@
     <string name="absage">Mir ist etwas dazwischen gekommen und ich muss leider spontan absagen. :(</string>
     <string name="teilnehmer_eintrag">- %1$s</string>
     <string name="metadaten_trenner">%1$s • %2$s</string>
+    <string name="kommentar_format">- %1$s</string>
 </resources>
